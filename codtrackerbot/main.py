@@ -1,5 +1,5 @@
 import logging
-
+import aiohttp
 import aiosqlite
 from discord.ext import commands
 
@@ -16,6 +16,10 @@ logger.addHandler(handler)
 
 
 class MyBot(commands.Bot):
+    def __init__(self, command_prefix, **options):
+        super().__init__(command_prefix=command_prefix, **options)
+        self.session = aiohttp.ClientSession(loop=self.loop)
+
     async def db_init(self):
         async with aiosqlite.connect("sqlite.db") as db:
             sql_create_table = 'CREATE TABLE IF NOT EXISTS users (id integer PRIMARY KEY, name TEXT type UNIQUE NOT NULL, platform TEXT NOT NULL);'

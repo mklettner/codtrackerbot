@@ -36,3 +36,10 @@ class Dummy(discord.ext.commands.Cog, name='Dummy module'):
             for _ in range(number_of_dice)
         ]
         await ctx.send(', '.join(dice))
+
+    @discord.ext.commands.command(name="test")
+    async def test(self, ctx):
+        async with self.bot.session.get("http://httpbin.org/json") as resp:
+            result = await resp.json()
+    
+        await ctx.send(result)
